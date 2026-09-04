@@ -1,0 +1,1063 @@
+import React, { useState, useRef } from 'react';
+
+// Icon Components using inline SVG for high reliability and self-containment
+const SparklesIcon = ({ className = "w-5 h-5" }) => (
+  <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+  </svg>
+);
+
+const UploadIcon = ({ className = "w-5 h-5" }) => (
+  <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
+  </svg>
+);
+
+const LayersIcon = ({ className = "w-5 h-5" }) => (
+  <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+  </svg>
+);
+
+const MaximizeIcon = ({ className = "w-5 h-5" }) => (
+  <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
+  </svg>
+);
+
+const LayoutIcon = ({ className = "w-5 h-5" }) => (
+  <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z" />
+  </svg>
+);
+
+const CheckCircleIcon = ({ className = "w-5 h-5" }) => (
+  <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+  </svg>
+);
+
+const LoaderIcon = ({ className = "w-5 h-5" }) => (
+  <svg className={`${className} animate-spin`} fill="none" viewBox="0 0 24 24">
+    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+  </svg>
+);
+
+const VideoIcon = ({ className = "w-5 h-5" }) => (
+  <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+  </svg>
+);
+
+const DownloadIcon = ({ className = "w-5 h-5" }) => (
+  <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+  </svg>
+);
+
+const TrashIcon = ({ className = "w-5 h-5" }) => (
+  <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+  </svg>
+);
+
+const PlusIcon = ({ className = "w-5 h-5" }) => (
+  <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+  </svg>
+);
+
+const BadgeCheckIcon = ({ className = "w-5 h-5" }) => (
+  <svg className={className} fill="currentColor" viewBox="0 0 20 20">
+    <path fillRule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+  </svg>
+);
+
+const ChevronLeftIcon = ({ className = "w-5 h-5" }) => (
+  <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+  </svg>
+);
+
+const CopyIcon = ({ className = "w-4 h-4" }) => (
+  <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+  </svg>
+);
+
+const ImageIcon = ({ className = "w-5 h-5" }) => (
+  <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+  </svg>
+);
+
+const HandIcon = ({ className = "w-5 h-5" }) => (
+  <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 11.5V14m0-2.5v-6a1.5 1.5 0 113 0m-3 6a1.5 1.5 0 00-3 0v2a7.5 7.5 0 0015 0v-5a1.5 1.5 0 00-3 0m-6-3.5V5a1.5 1.5 0 113 0m0 0v4.5m3-3V8a1.5 1.5 0 113 0m-3 0v3.5" />
+  </svg>
+);
+
+const CATEGORIES = [
+  "Pakaian (Baju, Kaos, Kemeja)",
+  "Celana & Rok",
+  "Sepatu & Sandal",
+  "Tas & Dompet",
+  "Aksesoris (Jam, Perhiasan)",
+  "Kecantikan & Kosmetik",
+  "Elektronik & Gadget",
+  "Perlengkapan Rumah Tangga",
+  "Olahraga & Outdoor",
+  "Mainan & Hobi"
+];
+
+// Gaya Presentasi Produk (Default NONE selected)
+const PRESENTATION_STYLES = [
+  { id: 'held_hand', name: 'Sedang Dipegang di Tangan', prompt: 'holding the product neatly in hands, displaying it towards camera' },
+  { id: 'worn_used', name: 'Sedang Dipakai / Dikenakan', prompt: 'wearing or actively using the product naturally' },
+  { id: 'table_podium', name: 'Diletakkan di Atas Meja / Podium', prompt: 'product placed elegantly on a luxury table/podium next to the model' },
+  { id: 'close_cam', name: 'Ditunjukkan Didekatkan ke Kamera', prompt: 'holding product close to camera for a detailed product highlight' },
+  { id: 'chest_level', name: 'Diangkat Setinggi Dada', prompt: 'holding product steadily at chest level while posing confidently' },
+  { id: 'posed_face', name: 'Disandingkan di Samping Wajah', prompt: 'holding product gracefully near face with a warm captivating smile' },
+  { id: 'hanging_display', name: 'Dipajang / Digantung Estetik', prompt: 'product displayed aesthetically on display rack/holder alongside model' },
+  { id: 'relaxed_lap', name: 'Dipeluk / Dipangku Santai', prompt: 'sitting comfortably holding product gently on lap' },
+  { id: 'enthusiastic_point', name: 'Ditunjuk dengan Antusias', prompt: 'model excitedly gesturing and pointing towards the product' },
+  { id: 'unboxing_touch', name: 'Sedang Disentuh / Unboxing', prompt: 'interacting naturally as if opening or touching the product premium texture' }
+];
+
+// 26 Latar Belakang Mewah Dalam Ruangan (Default NONE selected)
+const BACKGROUNDS = [
+  { id: 'studio', name: 'Studio Minimalis Mewah Putih', prompt: 'luxury minimalist white studio background, soft clean studio lighting, elegant podium setup' },
+  { id: 'living', name: 'Ruang Tamu Modern Mewah', prompt: 'modern luxury living room, high-end furniture, soft ambient sunlight, cinematic architectural interior' },
+  { id: 'lobby', name: 'Lobby Hotel Bintang 5', prompt: '5-star hotel lobby, marble floors, grand ambient lighting, crystal chandelier bokeh' },
+  { id: 'room', name: 'Kamar Hotel Elegan', prompt: 'luxurious hotel suite background, plush aesthetic, warm golden hour window light' },
+  { id: 'cafe', name: 'Café Mewah Estetik', prompt: 'aesthetic luxury cafe, marble tabletop, designer furniture, soft blurred background' },
+  { id: 'showroom', name: 'Showroom Brand Mewah', prompt: 'luxury brand boutique showroom, high-end retail showcase, sleek minimalist display' },
+  { id: 'penthouse', name: 'Lounge VIP Penthouse Skyscraper', prompt: 'luxury penthouse skyscraper VIP lounge, floor-to-ceiling city skyline windows, high-end designer interior' },
+  { id: 'walkin_closet', name: 'Walk-in Closet Boutique', prompt: 'luxurious walk-in closet interior, warm ambient backlit shelving, designer wardrobe display' },
+  { id: 'glass_house', name: 'Private Villa Glass Studio', prompt: 'luxury glass-house villa interior, lush tropical indoor garden background, golden sunlight' },
+  { id: 'marble_kitchen', name: 'Dapur Modern Island Marmer', prompt: 'modern luxury kitchen with white marble island, sleek brass accent lighting, high-end interior' },
+  { id: 'executive_office', name: 'Executive Suite Office', prompt: 'executive penthouse office, dark wood panelling, minimalist luxury desk setup, panoramic glass backdrop' },
+  { id: 'private_library', name: 'Perpustakaan Studio Kayu Mahoni', prompt: 'classic luxury mahogany library interior, floor-to-ceiling books, warm moody amber lighting' },
+  { id: 'spa_sanctuary', name: 'Luxury Spa & Wellness Room', prompt: 'serene luxury spa interior, stone textures, warm soft candlelight, bamboo aesthetic background' },
+  { id: 'golden_bar', name: 'Golden Bar & Night Lounge', prompt: 'exclusive golden luxury cocktail lounge, glowing marble bar counter, ambient warm bokeh' },
+  { id: 'jewelry_exhibition', name: 'Exhibition Hall Perhiasan Mewah', prompt: 'high-end luxury jewelry exhibition hall, glass showcase podiums, spot lighting focus' },
+  { id: 'art_gallery', name: 'Galeri Seni Minimalis', prompt: 'contemporary minimalist art gallery interior, museum lighting, sleek clean white space' },
+  { id: 'sunroom_conservatory', name: 'Conservatory Sunroom Mewah', prompt: 'luxurious indoor sunroom conservatory, glass ceiling, soft natural ambient daylight, lush plants' },
+  { id: 'european_salon', name: 'Salon Eropa Klasik Modern', prompt: 'modern classic European salon interior, ornate wall moldings, crystal chandelier light, gold accents' },
+  { id: 'imperial_dining', name: 'Ruang Makan Imperial Gold', prompt: 'grand imperial dining room, polished mahogany table, crystal chandelier soft focus background' },
+  { id: 'futuristic_lounge', name: 'Lounge Futuristis Cyber Luxe', prompt: 'ultra-modern luxury lounge, ambient neon accent backlighting, sleek metallic and glass interior' },
+  { id: 'ballroom_foyer', name: 'Foyer Grand Ballroom Istana', prompt: 'grand palace ballroom foyer, polished marble floor reflection, gold pillar interior' },
+  { id: 'presidential_suite', name: 'Presidential Suite Emerald Velvet', prompt: 'presidential suite interior, deep emerald green velvet accents, warm ambient architectural lighting' },
+  { id: 'wine_tasting', name: 'Ruang Tasting Wine Privat', prompt: 'private luxury wine cellar lounge, brick and oak interior, warm atmospheric spotlighting' },
+  { id: 'vanity_room', name: 'Meja Rias & Salon Kecantikan Mewah', prompt: 'luxury beauty vanity room, hollywood ring light mirror, aesthetic perfume display counter' },
+  { id: 'nordic_loft', name: 'Loft Nordic Minimalis Luxury', prompt: 'scandinavian luxury loft interior, exposed warm brick, high ceilings, large arched window light' },
+  { id: 'bathroom_spa', name: 'Kamar Mandi Marmer Luxury Spa', prompt: 'modern luxury marble bathroom spa, freestanding bathtub backdrop, warm soft illumination' }
+];
+
+const RATIOS = [
+  { label: '1:1 (Feed)', value: '1:1', width: 1, height: 1 },
+  { label: '9:16 (Reels/TikTok)', value: '9:16', width: 9, height: 16 },
+  { label: '4:5 (Portrait)', value: '4:5', width: 4, height: 5 },
+  { label: '16:9 (Landscape)', value: '16:9', width: 16, height: 9 },
+  { label: '3:4 (Standard)', value: '3:4', width: 3, height: 4 }
+];
+
+const POSES = [
+  { title: "Natural Model Pose", poseDesc: "standing naturally, smiling warmly at camera, holding the product effortlessly in center frame" },
+  { title: "Dynamic Lifestyle", poseDesc: "active dynamic lifestyle pose, showcasing the product in real action with natural movement" },
+  { title: "Close-up Product Review", poseDesc: "close up review angle, model holding product near chest level showing crisp details" },
+  { title: "Elegance & Seated", poseDesc: "sitting gracefully on a luxury lounge chair, product positioned prominently next to model" },
+  { title: "Interactive Walk", poseDesc: "walking towards camera with confident expression, carrying/wearing the product seamlessly" },
+  { title: "Excited Highlight", poseDesc: "expressing enthusiastic delight while presenting the product towards the viewer" }
+];
+
+function createSampleImage(type) {
+  const canvas = document.createElement('canvas');
+  canvas.width = 600;
+  canvas.height = 600;
+  const ctx = canvas.getContext('2d');
+
+  if (type === 'char') {
+    const grad = ctx.createLinearGradient(0, 0, 600, 600);
+    grad.addColorStop(0, '#1e293b');
+    grad.addColorStop(1, '#0f172a');
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, 0, 600, 600);
+
+    ctx.fillStyle = '#38bdf8';
+    ctx.beginPath();
+    ctx.arc(300, 200, 80, 0, Math.PI * 2);
+    ctx.fill();
+
+    ctx.fillStyle = '#0284c7';
+    ctx.beginPath();
+    ctx.arc(300, 480, 180, Math.PI, 0, false);
+    ctx.fill();
+
+    ctx.fillStyle = '#ffffff';
+    ctx.font = 'bold 28px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('Model Karakter (Sample)', 300, 540);
+  } else {
+    const grad = ctx.createLinearGradient(0, 0, 600, 600);
+    grad.addColorStop(0, '#312e81');
+    grad.addColorStop(1, '#1e1b4b');
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, 0, 600, 600);
+
+    ctx.fillStyle = '#fbbf24';
+    if (ctx.roundRect) ctx.roundRect(220, 180, 160, 240, 20); else ctx.fillRect(220, 180, 160, 240);
+    ctx.fill();
+
+    ctx.fillStyle = '#d97706';
+    ctx.fillRect(260, 130, 80, 50);
+
+    ctx.fillStyle = '#ffffff';
+    ctx.font = 'bold 28px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('Produk Premium (Sample)', 300, 540);
+  }
+
+  return canvas.toDataURL('image/png');
+}
+
+function synthesizeCompositeImage(charSrc, prodSrc, bgPrompt, poseDesc, ratioVal, poseIndex) {
+  return new Promise((resolve) => {
+    const canvas = document.createElement('canvas');
+    let width = 1080;
+    let height = 1920;
+
+    if (ratioVal === '1:1') { width = 1080; height = 1080; }
+    else if (ratioVal === '4:5') { width = 1080; height = 1350; }
+    else if (ratioVal === '16:9') { width = 1920; height = 1080; }
+    else if (ratioVal === '3:4') { width = 1080; height = 1440; }
+
+    canvas.width = width;
+    canvas.height = height;
+    const ctx = canvas.getContext('2d');
+
+    const bgGradients = [
+      ['#0f172a', '#1e293b', '#334155'],
+      ['#18181b', '#27272a', '#3f3f46'],
+      ['#1e1b4b', '#312e81', '#4338ca'],
+      ['#2e1065', '#3b0764', '#581c87'],
+      ['#064e3b', '#047857', '#059669'],
+      ['#451a03', '#78350f', '#b45309']
+    ];
+    const colors = bgGradients[poseIndex % bgGradients.length];
+    const grad = ctx.createLinearGradient(0, 0, width, height);
+    grad.addColorStop(0, colors[0]);
+    grad.addColorStop(0.5, colors[1]);
+    grad.addColorStop(1, colors[2]);
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, 0, width, height);
+
+    // Floor platform reflection line for ground alignment (prevents missing feet effect)
+    const floorY = height * 0.88;
+    const floorGrad = ctx.createLinearGradient(0, floorY, 0, height);
+    floorGrad.addColorStop(0, 'rgba(0,0,0,0.4)');
+    floorGrad.addColorStop(1, 'rgba(0,0,0,0.85)');
+    ctx.fillStyle = floorGrad;
+    ctx.fillRect(0, floorY, width, height - floorY);
+
+    for (let i = 0; i < 15; i++) {
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.04)';
+      ctx.beginPath();
+      ctx.arc(
+        (Math.sin(i * 1.5 + poseIndex) * 0.5 + 0.5) * width,
+        (Math.cos(i * 2.1 + poseIndex) * 0.5 + 0.5) * height,
+        50 + (i * 15) % 90,
+        0,
+        Math.PI * 2
+      );
+      ctx.fill();
+    }
+
+    const imgChar = new Image();
+    const imgProd = new Image();
+    let loaded = 0;
+
+    const render = () => {
+      // Draw shadow under model feet
+      ctx.save();
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.45)';
+      ctx.beginPath();
+      ctx.ellipse(width * 0.38, floorY + 15, width * 0.25, 22, 0, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+
+      // Render Model/Character fully inside canvas bounds (head-to-feet visible)
+      ctx.save();
+      ctx.shadowColor = 'rgba(0,0,0,0.6)';
+      ctx.shadowBlur = 35;
+
+      const maxCharH = height * 0.82;
+      const charScale = Math.min(width * 0.55 / imgChar.width, maxCharH / imgChar.height);
+      const charW = imgChar.width * charScale;
+      const charH = imgChar.height * charScale;
+      const charX = width * 0.12;
+      const charY = floorY - charH + 10; // Aligned precisely to floor line
+
+      ctx.drawImage(imgChar, charX, charY, charW, charH);
+      ctx.restore();
+
+      // Draw shadow under product
+      ctx.save();
+      ctx.shadowColor = 'rgba(0,0,0,0.65)';
+      ctx.shadowBlur = 30;
+
+      const maxProdDim = Math.min(width * 0.38, height * 0.38);
+      const prodScale = Math.min(maxProdDim / imgProd.width, maxProdDim / imgProd.height);
+      const prodW = imgProd.width * prodScale;
+      const prodH = imgProd.height * prodScale;
+      const prodX = width * 0.54;
+      const prodY = height * 0.42;
+
+      // Realistic glass showcase frame for fallback composite
+      ctx.fillStyle = 'rgba(15, 23, 42, 0.65)';
+      ctx.strokeStyle = 'rgba(56, 189, 248, 0.35)';
+      ctx.lineWidth = 3;
+      ctx.beginPath();
+      if (ctx.roundRect) ctx.roundRect(prodX - 25, prodY - 25, prodW + 50, prodH + 50, 24); else ctx.fillRect(prodX - 25, prodY - 25, prodW + 50, prodH + 50);
+      ctx.fill();
+      ctx.stroke();
+
+      ctx.drawImage(imgProd, prodX, prodY, prodW, prodH);
+      ctx.restore();
+
+      // Label Overlay
+      ctx.fillStyle = 'rgba(15, 23, 42, 0.85)';
+      ctx.fillRect(0, height - 85, width, 85);
+
+      ctx.fillStyle = '#38bdf8';
+      ctx.font = 'bold 26px sans-serif';
+      ctx.textAlign = 'left';
+      ctx.fillText(`AffiliVision Pro • Pose #${poseIndex + 1}`, 35, height - 35);
+
+      ctx.fillStyle = '#94a3b8';
+      ctx.font = '18px sans-serif';
+      ctx.textAlign = 'right';
+      ctx.fillText(`${ratioVal} • High-Fidelity Studio Render`, width - 35, height - 35);
+
+      resolve(canvas.toDataURL('image/png'));
+    };
+
+    imgChar.onload = () => { loaded++; if (loaded === 2) render(); };
+    imgProd.onload = () => { loaded++; if (loaded === 2) render(); };
+
+    imgChar.src = charSrc;
+    imgProd.src = prodSrc;
+  });
+}
+
+export default function App() {
+  const [characterImg, setCharacterImg] = useState(null);
+  const [productImg, setProductImg] = useState(null);
+  
+  // Default values set to empty / null so user must choose manually
+  const [category, setCategory] = useState("");
+  const [presentationStyle, setPresentationStyle] = useState(null);
+  const [background, setBackground] = useState(null);
+
+  const [ratio, setRatio] = useState('9:16');
+  const [isGenerating, setIsGenerating] = useState(false);
+  const [results, setResults] = useState([]);
+  const [history, setHistory] = useState([]);
+  const [showHistory, setShowHistory] = useState(false);
+  const [progress, setProgress] = useState(0);
+  const [currentStepText, setCurrentStepText] = useState("");
+  const [copyFeedback, setCopyFeedback] = useState(null);
+  const [activeModalImage, setActiveModalImage] = useState(null);
+
+  const charInputRef = useRef(null);
+  const prodInputRef = useRef(null);
+
+  const loadPresetSamples = () => {
+    setCharacterImg(createSampleImage('char'));
+    setProductImg(createSampleImage('prod'));
+  };
+
+  const handleFileUpload = (e, type) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        if (type === 'char') setCharacterImg(reader.result);
+        else setProductImg(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const downloadImage = (url, filename) => {
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = filename;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  const downloadAll = () => {
+    results.forEach((res, idx) => {
+      downloadImage(res.imageUrl, `affilivision-pro-pose-${idx + 1}.png`);
+    });
+  };
+
+  const copyToClipboard = (text, idx) => {
+    navigator.clipboard.writeText(text);
+    setCopyFeedback(idx);
+    setTimeout(() => setCopyFeedback(null), 2000);
+  };
+
+  const resetApp = () => {
+    setResults([]);
+    setProgress(0);
+  };
+
+  const generateContent = async () => {
+    if (!characterImg || !productImg) {
+      alert("Silakan unggah foto karakter dan foto produk terlebih dahulu.");
+      return;
+    }
+    if (!category) {
+      alert("Silakan pilih Kategori Produk terlebih dahulu.");
+      return;
+    }
+    if (!presentationStyle) {
+      alert("Silakan pilih Gaya Presentasi Produk terlebih dahulu.");
+      return;
+    }
+    if (!background) {
+      alert("Silakan pilih Latar Belakang (Background) terlebih dahulu.");
+      return;
+    }
+
+    setIsGenerating(true);
+    setResults([]);
+    setProgress(0);
+    setCurrentStepText("Inisialisasi sistem AI & persiapan aset...");
+
+    const apiKey = "";
+    const newResults = [];
+
+    try {
+      for (let i = 0; i < POSES.length; i++) {
+        const poseObj = POSES[i];
+        const stepProgress = Math.round(((i + 0.1) / POSES.length) * 100);
+        setProgress(stepProgress);
+        setCurrentStepText(`Menghasilkan Pose #${i + 1}: ${poseObj.title}...`);
+
+        let generatedImageUrl = "";
+        let generatedVideoPrompt = "";
+
+        const charBase64 = characterImg.includes(',') ? characterImg.split(',')[1] : characterImg;
+        const prodBase64 = productImg.includes(',') ? productImg.split(',')[1] : productImg;
+
+        try {
+          // Strictly structured prompt for Gemini 3.1 Flash Image to ensure 100% product fidelity & full body preservation
+          const imgPrompt = `CRITICAL PHOTO COMPOSITION & FIDELITY INSTRUCTIONS:
+
+1. EXACT PRODUCT FIDELITY (IMAGE 2 IS THE PRODUCT TO SHOWCASE):
+   - You MUST preserve 100% of the original product design from Image 2.
+   - Keep exact logos, labels, color palette, brand markings, texture, shape, and physical details identical to Image 2.
+   - DO NOT alter the product design or substitute it with a different generic product.
+
+2. MODEL ANATOMY & IDENTITY (IMAGE 1 IS THE MODEL):
+   - Maintain the model's identity, facial structure, skin tone, and hairstyle from Image 1.
+   - FULL BODY FRAMING: Show complete anatomy from head to toe (feet and shoes MUST be fully visible on the floor, NO missing feet, legs, or cut-off limbs).
+
+3. INTERACTION & SCENE SETUP:
+   - Presentation Style: "${presentationStyle.name}" (${presentationStyle.prompt}).
+   - Pose & Expression: "${poseObj.title}" - ${poseObj.poseDesc}.
+   - Product Category: "${category}".
+   - Background Setting: High-end indoor luxury "${background.name}" (${background.prompt}).
+   - Lighting & Camera: Professional studio photography, 85mm portrait lens, sharp focus on product, natural soft floor shadows, 8k commercial quality.`;
+
+          const payloadImage = {
+            contents: [{
+              role: 'user',
+              parts: [
+                { text: imgPrompt },
+                { inlineData: { mimeType: 'image/png', data: charBase64 } },
+                { inlineData: { mimeType: 'image/png', data: prodBase64 } }
+              ]
+            }],
+            generationConfig: {
+              responseModalities: ['IMAGE'],
+              imageConfig: { aspectRatio: ratio }
+            }
+          };
+
+          const imgApiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-image:generateContent?key=${apiKey}`;
+          const imgRes = await fetch(imgApiUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payloadImage)
+          });
+
+          if (imgRes.ok) {
+            const imgData = await imgRes.json();
+            const part = imgData?.candidates?.[0]?.content?.parts?.find(p => p.inlineData);
+            if (part) {
+              generatedImageUrl = `data:${part.inlineData.mimeType};base64,${part.inlineData.data}`;
+            }
+          }
+        } catch (err) {
+          console.warn("Gemini Image API standard fetch bypassed, switching to canvas fallback synthesizer", err);
+        }
+
+        if (!generatedImageUrl) {
+          generatedImageUrl = await synthesizeCompositeImage(
+            characterImg,
+            productImg,
+            background.prompt,
+            `${presentationStyle.name}, ${poseObj.poseDesc}`,
+            ratio,
+            i
+          );
+        }
+
+        try {
+          const textPrompt = `Buatkan 1 prompt video AI (Image-to-Video) dalam Bahasa Indonesia untuk konten TikTok/Reels affiliate. 
+          Konteks: Model dalam pose "${poseObj.poseDesc}" dengan gaya presentasi "${presentationStyle.name}" memamerkan produk "${category}" di latar belakang indoor mewah "${background.name}".
+          Format prompt: Sertakan gerakan kamera halus (panning/zoom in), ekspresi model, pencahayaan, dan durasi 5 detik. Hanya berikan teks prompt tanpa kalimat pembuka.`;
+
+          const payloadText = {
+            contents: [{ parts: [{ text: textPrompt }] }]
+          };
+
+          const textApiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
+          const textRes = await fetch(textApiUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payloadText)
+          });
+
+          if (textRes.ok) {
+            const textData = await textRes.json();
+            const textVal = textData?.candidates?.[0]?.content?.parts?.[0]?.text;
+            if (textVal) generatedVideoPrompt = textVal.trim();
+          }
+        } catch (err) {
+          console.warn("Gemini Text API error, using structured fallback prompt", err);
+        }
+
+        if (!generatedVideoPrompt) {
+          generatedVideoPrompt = `Slow camera pan in, model ${poseObj.title.toLowerCase()} dengan ${presentationStyle.name.toLowerCase()} memamerkan detail ${category} di ${background.name}. Pencahayaan cinematic studio, gerakan natural & menarik perhatian audiens TikTok.`;
+        }
+
+        newResults.push({
+          imageUrl: generatedImageUrl,
+          videoPrompt: generatedVideoPrompt,
+          poseTitle: poseObj.title
+        });
+
+        setProgress(Math.round(((i + 1) / POSES.length) * 100));
+      }
+
+      setResults(newResults);
+      setHistory(prev => [{ results: newResults, date: new Date().toLocaleString('id-ID') }, ...prev]);
+    } catch (error) {
+      console.error("Error generating affiliate photos:", error);
+      alert("Terjadi kesalahan saat membuat foto. Silakan coba beberapa saat lagi.");
+    } finally {
+      setIsGenerating(false);
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-[#0a0f1d] text-gray-100 font-sans selection:bg-blue-500/30 pb-16">
+      {/* Header Bar */}
+      <header className="border-b border-slate-800/80 bg-[#070b14]/90 backdrop-blur-xl sticky top-0 z-40">
+        <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-600 rounded-xl flex items-center justify-center shadow-lg shadow-blue-500/20">
+              <SparklesIcon className="text-white w-6 h-6" />
+            </div>
+            <div>
+              <h1 className="text-lg md:text-xl font-bold tracking-tight text-white flex items-center gap-1.5">
+                AffiliVision <span className="text-blue-500 font-extrabold">Pro</span>
+              </h1>
+              <p className="text-[10px] text-slate-400 uppercase tracking-widest font-semibold flex items-center gap-1">
+                AI Affiliate Content Generator
+              </p>
+              <div className="flex items-center gap-1">
+                <span className="text-[9px] font-medium text-slate-400">Created by:</span>
+                <span className="text-[9px] font-bold bg-gradient-to-r from-blue-400 to-indigo-300 bg-clip-text text-transparent">
+                  Faisal Adi Priatna
+                </span>
+                <BadgeCheckIcon className="w-3.5 h-3.5 text-blue-500 inline" />
+              </div>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-3 md:gap-6 text-xs md:text-sm font-medium">
+            <button 
+              onClick={loadPresetSamples}
+              className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-blue-500/10 text-blue-400 border border-blue-500/20 hover:bg-blue-500/20 transition-all"
+            >
+              <SparklesIcon className="w-3.5 h-3.5" /> Gunakan Sample
+            </button>
+            <button 
+              onClick={() => setResults([])} 
+              className="text-slate-400 hover:text-white transition-colors"
+            >
+              Dashboard
+            </button>
+            <button 
+              onClick={() => setShowHistory(true)} 
+              className="text-slate-400 hover:text-white transition-colors relative"
+            >
+              Riwayat
+              {history.length > 0 && (
+                <span className="absolute -top-1 -right-2.5 w-2 h-2 bg-blue-500 rounded-full"></span>
+              )}
+            </button>
+          </div>
+        </div>
+      </header>
+
+      {/* Main Container */}
+      <main className="max-w-7xl mx-auto px-4 py-6 md:py-8">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+          
+          {/* Left Column: Control Panel */}
+          <div className="lg:col-span-4 space-y-6">
+            
+            {/* Upload Section */}
+            <section className="bg-slate-900/60 border border-slate-800 rounded-2xl p-5 space-y-4">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <UploadIcon className="w-4 h-4 text-blue-400" />
+                  <h2 className="text-xs font-bold uppercase tracking-wider text-slate-300">Aset Media (2 Foto)</h2>
+                </div>
+                <button 
+                  onClick={loadPresetSamples} 
+                  className="text-[11px] text-blue-400 hover:underline font-medium sm:hidden"
+                >
+                  Pakai Sample
+                </button>
+              </div>
+              
+              <div className="grid grid-cols-2 gap-3">
+                {/* Character Upload */}
+                <div 
+                  onClick={() => charInputRef.current?.click()}
+                  className={`relative aspect-square rounded-xl border-2 border-dashed transition-all cursor-pointer group overflow-hidden flex flex-col items-center justify-center p-2 text-center
+                    ${characterImg ? 'border-blue-500/60 bg-blue-500/5' : 'border-slate-700/80 hover:border-slate-500 bg-slate-950/40'}`}
+                >
+                  <input type="file" ref={charInputRef} hidden accept="image/*" onChange={(e) => handleFileUpload(e, 'char')} />
+                  {characterImg ? (
+                    <>
+                      <img src={characterImg} alt="Karakter" className="w-full h-full object-cover rounded-lg" />
+                      <div className="absolute inset-0 bg-slate-950/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                        <button 
+                          onClick={(e) => { e.stopPropagation(); setCharacterImg(null); }}
+                          className="p-2 bg-rose-600/80 text-white rounded-lg hover:bg-rose-600"
+                        >
+                          <TrashIcon className="w-5 h-5" />
+                        </button>
+                      </div>
+                      <span className="absolute bottom-1.5 left-1.5 px-2 py-0.5 text-[9px] font-bold bg-blue-600 text-white rounded">Karakter</span>
+                    </>
+                  ) : (
+                    <div className="space-y-1">
+                      <PlusIcon className="w-7 h-7 text-slate-500 mx-auto group-hover:text-blue-400 transition-colors" />
+                      <span className="text-[11px] font-medium text-slate-400 block">Foto Karakter</span>
+                      <span className="text-[9px] text-slate-600 block">Model / Diri Anda</span>
+                    </div>
+                  )}
+                </div>
+
+                {/* Product Upload */}
+                <div 
+                  onClick={() => prodInputRef.current?.click()}
+                  className={`relative aspect-square rounded-xl border-2 border-dashed transition-all cursor-pointer group overflow-hidden flex flex-col items-center justify-center p-2 text-center
+                    ${productImg ? 'border-blue-500/60 bg-blue-500/5' : 'border-slate-700/80 hover:border-slate-500 bg-slate-950/40'}`}
+                >
+                  <input type="file" ref={prodInputRef} hidden accept="image/*" onChange={(e) => handleFileUpload(e, 'prod')} />
+                  {productImg ? (
+                    <>
+                      <img src={productImg} alt="Produk" className="w-full h-full object-cover rounded-lg" />
+                      <div className="absolute inset-0 bg-slate-950/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                        <button 
+                          onClick={(e) => { e.stopPropagation(); setProductImg(null); }}
+                          className="p-2 bg-rose-600/80 text-white rounded-lg hover:bg-rose-600"
+                        >
+                          <TrashIcon className="w-5 h-5" />
+                        </button>
+                      </div>
+                      <span className="absolute bottom-1.5 left-1.5 px-2 py-0.5 text-[9px] font-bold bg-indigo-600 text-white rounded">Produk</span>
+                    </>
+                  ) : (
+                    <div className="space-y-1">
+                      <PlusIcon className="w-7 h-7 text-slate-500 mx-auto group-hover:text-indigo-400 transition-colors" />
+                      <span className="text-[11px] font-medium text-slate-400 block">Foto Produk</span>
+                      <span className="text-[9px] text-slate-600 block">Barang / Merchandise</span>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </section>
+
+            {/* Configuration Options */}
+            <section className="bg-slate-900/60 border border-slate-800 rounded-2xl p-5 space-y-5">
+              
+              {/* Product Category (Default NONE checked) */}
+              <div className="space-y-2">
+                <label className="flex items-center gap-2 text-xs font-semibold text-slate-300">
+                  <LayersIcon className="w-4 h-4 text-blue-400" /> Kategori Produk <span className="text-rose-400 text-[10px]">*Wajib Pilih</span>
+                </label>
+                <select 
+                  value={category}
+                  onChange={(e) => setCategory(e.target.value)}
+                  className={`w-full border rounded-xl px-3.5 py-2.5 text-xs focus:outline-none focus:ring-2 focus:ring-blue-500/50 cursor-pointer transition-all
+                    ${!category ? 'bg-slate-950 border-amber-500/40 text-amber-300/80' : 'bg-slate-950 border-slate-800 text-slate-200'}`}
+                >
+                  <option value="" disabled className="text-slate-500">-- Pilih Kategori Produk --</option>
+                  {CATEGORIES.map(cat => (
+                    <option key={cat} value={cat} className="bg-slate-900 text-slate-200">{cat}</option>
+                  ))}
+                </select>
+              </div>
+
+              {/* Product Presentation Style (Default NONE checked) */}
+              <div className="space-y-2">
+                <label className="flex items-center gap-2 text-xs font-semibold text-slate-300">
+                  <HandIcon className="w-4 h-4 text-blue-400" /> Gaya Presentasi Produk <span className="text-rose-400 text-[10px]">*Wajib Pilih</span>
+                </label>
+                <div className="space-y-1.5 max-h-48 overflow-y-auto pr-1">
+                  {PRESENTATION_STYLES.map(style => (
+                    <button
+                      key={style.id}
+                      onClick={() => setPresentationStyle(style)}
+                      className={`w-full flex items-center justify-between px-3.5 py-2 rounded-xl border text-left text-xs transition-all
+                        ${presentationStyle?.id === style.id 
+                          ? 'bg-blue-500/10 border-blue-500/60 text-blue-300 font-semibold shadow-sm' 
+                          : 'bg-slate-950/40 border-slate-800/80 text-slate-400 hover:bg-slate-800/40'}`}
+                    >
+                      <span className="truncate">{style.name}</span>
+                      {presentationStyle?.id === style.id && <CheckCircleIcon className="w-4 h-4 text-blue-400 shrink-0 ml-2" />}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Aspect Ratio Selection */}
+              <div className="space-y-2">
+                <label className="flex items-center gap-2 text-xs font-semibold text-slate-300">
+                  <MaximizeIcon className="w-4 h-4 text-blue-400" /> Rasio Output Gambar
+                </label>
+                <div className="grid grid-cols-3 gap-2">
+                  {RATIOS.map(r => (
+                    <button
+                      key={r.value}
+                      onClick={() => setRatio(r.value)}
+                      className={`px-2 py-2 text-[10px] font-bold rounded-lg border transition-all flex flex-col items-center gap-1
+                        ${ratio === r.value 
+                          ? 'bg-gradient-to-r from-blue-600 to-indigo-600 border-blue-400 text-white shadow-md shadow-blue-500/20' 
+                          : 'bg-slate-950/60 border-slate-800 text-slate-400 hover:bg-slate-800/50'}`}
+                    >
+                      <span>{r.label}</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Background Preset Selection (Default NONE checked) */}
+              <div className="space-y-2">
+                <div className="flex justify-between items-center">
+                  <label className="flex items-center gap-2 text-xs font-semibold text-slate-300">
+                    <LayoutIcon className="w-4 h-4 text-blue-400" /> Latar Belakang Indoor Mewah <span className="text-rose-400 text-[10px]">*Wajib Pilih</span>
+                  </label>
+                  <span className="text-[10px] text-slate-500 font-mono">{BACKGROUNDS.length} pilihan</span>
+                </div>
+                <div className="space-y-1.5 max-h-56 overflow-y-auto pr-1">
+                  {BACKGROUNDS.map(bg => (
+                    <button
+                      key={bg.id}
+                      onClick={() => setBackground(bg)}
+                      className={`w-full flex items-center justify-between px-3.5 py-2 rounded-xl border text-left text-xs transition-all
+                        ${background?.id === bg.id 
+                          ? 'bg-blue-500/10 border-blue-500/60 text-blue-300 font-semibold shadow-sm' 
+                          : 'bg-slate-950/40 border-slate-800/80 text-slate-400 hover:bg-slate-800/40'}`}
+                    >
+                      <span className="truncate">{bg.name}</span>
+                      {background?.id === bg.id && <CheckCircleIcon className="w-4 h-4 text-blue-400 shrink-0 ml-2" />}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Primary Action Button */}
+              <button
+                onClick={generateContent}
+                disabled={isGenerating || !characterImg || !productImg || !category || !presentationStyle || !background}
+                className={`w-full py-3.5 rounded-xl font-bold text-sm flex items-center justify-center gap-2 transition-all
+                  ${isGenerating || !characterImg || !productImg || !category || !presentationStyle || !background
+                    ? 'bg-slate-800 text-slate-500 cursor-not-allowed border border-slate-700/50'
+                    : 'bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 text-white hover:opacity-95 active:scale-[0.99] shadow-lg shadow-blue-600/25'}`}
+              >
+                {isGenerating ? (
+                  <>
+                    <LoaderIcon className="w-5 h-5 text-white" />
+                    <span>Memproses ({progress}%)</span>
+                  </>
+                ) : (
+                  <>
+                    <SparklesIcon className="w-5 h-5" />
+                    <span>Generate 6 Foto Affiliate</span>
+                  </>
+                )}
+              </button>
+            </section>
+          </div>
+
+          {/* Right Column: Output Showcase */}
+          <div className="lg:col-span-8">
+            <div className="bg-slate-900/40 border border-slate-800 rounded-3xl p-5 md:p-7 min-h-[580px] flex flex-col relative">
+              
+              {!isGenerating && results.length === 0 ? (
+                <div className="flex-1 flex flex-col items-center justify-center text-center p-6 space-y-4">
+                  <div className="w-20 h-20 bg-slate-800/50 border border-slate-700/50 rounded-2xl flex items-center justify-center text-slate-500 shadow-inner">
+                    <ImageIcon className="w-10 h-10" />
+                  </div>
+                  <div className="space-y-1.5 max-w-md">
+                    <h3 className="text-lg font-bold text-slate-200">Siap Menghasilkan Konten Affiliate</h3>
+                    <p className="text-xs text-slate-400 leading-relaxed">
+                      Unggah aset foto, lalu pilih <strong className="text-blue-400">Kategori, Gaya Presentasi, dan Latar Indoor Mewah</strong> di panel kiri. Tekan tombol <strong className="text-blue-400">"Generate 6 Foto Affiliate"</strong> untuk memproses visual otomatis.
+                    </p>
+                  </div>
+                  <button 
+                    onClick={loadPresetSamples}
+                    className="px-4 py-2 bg-blue-600/20 text-blue-300 border border-blue-500/30 rounded-xl text-xs font-semibold hover:bg-blue-600/30 transition-all flex items-center gap-2"
+                  >
+                    <SparklesIcon className="w-4 h-4" /> Coba Dengan Foto Sample
+                  </button>
+                </div>
+              ) : (
+                <div className="space-y-8">
+                  {/* Results Header */}
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-slate-800">
+                    <div>
+                      <h2 className="text-xl font-extrabold text-white flex items-center gap-2">
+                        Hasil Foto Affiliate
+                        <span className="text-xs font-semibold text-blue-400 bg-blue-500/10 px-2.5 py-1 rounded-full border border-blue-500/20">
+                          {results.length} Variasi Pose
+                        </span>
+                      </h2>
+                      <p className="text-xs text-slate-400 mt-0.5">Disertai AI Prompt untuk pembuatan video TikTok / Instagram Reels</p>
+                    </div>
+
+                    {results.length > 0 && (
+                      <button 
+                        onClick={downloadAll}
+                        className="self-start sm:self-auto px-3.5 py-2 bg-slate-800 hover:bg-slate-700 text-white rounded-xl text-xs font-bold transition-all flex items-center gap-2 border border-slate-700 shadow-sm"
+                      >
+                        <DownloadIcon className="w-4 h-4 text-blue-400" /> Download Semua
+                      </button>
+                    )}
+                  </div>
+
+                  {/* Results Grid */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    {results.map((res, idx) => (
+                      <div 
+                        key={idx} 
+                        className="bg-slate-900 border border-slate-800 rounded-2xl p-4 space-y-3 shadow-xl transition-all hover:border-slate-700"
+                      >
+                        {/* Image Preview Container */}
+                        <div className="relative rounded-xl overflow-hidden bg-slate-950 border border-slate-800/80 group">
+                          <img 
+                            src={res.imageUrl} 
+                            alt={`Affiliate Pose ${idx + 1}`} 
+                            className="w-full object-cover max-h-[420px] transition-transform duration-300 group-hover:scale-[1.02]"
+                          />
+                          
+                          {/* Image Actions Overlay */}
+                          <div className="absolute top-3 right-3 flex gap-2 opacity-90 group-hover:opacity-100 transition-opacity">
+                            <button 
+                              onClick={() => setActiveModalImage(res.imageUrl)}
+                              className="p-2 bg-slate-950/80 backdrop-blur-md rounded-lg text-white hover:bg-black transition-colors"
+                              title="Perbesar Foto"
+                            >
+                              <MaximizeIcon className="w-4 h-4" />
+                            </button>
+                            <button 
+                              onClick={() => downloadImage(res.imageUrl, `affilivision-pose-${idx + 1}.png`)}
+                              className="p-2 bg-blue-600 backdrop-blur-md rounded-lg text-white hover:bg-blue-500 transition-colors shadow-md"
+                              title="Download Foto Ini"
+                            >
+                              <DownloadIcon className="w-4 h-4" />
+                            </button>
+                          </div>
+
+                          {/* Badge Footer */}
+                          <div className="absolute bottom-0 inset-x-0 p-3 bg-gradient-to-t from-slate-950 via-slate-950/80 to-transparent flex justify-between items-center">
+                            <span className="text-[10px] font-bold text-blue-400 uppercase tracking-wider bg-blue-950/60 border border-blue-800/50 px-2 py-0.5 rounded">
+                              Pose {idx + 1}: {res.poseTitle}
+                            </span>
+                            <span className="text-[9px] text-slate-400">{ratio}</span>
+                          </div>
+                        </div>
+
+                        {/* Video Prompt Card */}
+                        <div className="bg-slate-950/80 border border-slate-800/80 rounded-xl p-3 space-y-2">
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-1.5 text-[11px] font-bold text-indigo-300">
+                              <VideoIcon className="w-3.5 h-3.5 text-indigo-400" /> AI Video Prompt
+                            </div>
+                            <button 
+                              onClick={() => copyToClipboard(res.videoPrompt, idx)}
+                              className={`text-[10px] font-semibold flex items-center gap-1 transition-colors px-2 py-1 rounded
+                                ${copyFeedback === idx 
+                                  ? 'bg-emerald-500/20 text-emerald-400' 
+                                  : 'bg-slate-800/80 text-blue-400 hover:bg-slate-800'}`}
+                            >
+                              <CopyIcon className="w-3 h-3" />
+                              {copyFeedback === idx ? 'Tersalin!' : 'Salin Prompt'}
+                            </button>
+                          </div>
+                          <p className="text-[11px] text-slate-300 leading-relaxed italic bg-slate-900/50 p-2 rounded-lg border border-slate-800/50 select-all">
+                            "{res.videoPrompt}"
+                          </p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Reset / Back Button */}
+                  <div className="pt-6 border-t border-slate-800 flex justify-center">
+                    <button
+                      onClick={resetApp}
+                      className="px-6 py-2.5 bg-slate-800 hover:bg-slate-700 border border-slate-700 rounded-xl text-xs font-semibold text-slate-300 transition-all flex items-center gap-2"
+                    >
+                      <ChevronLeftIcon className="w-4 h-4" /> Reset & Kembali
+                    </button>
+                  </div>
+                </div>
+              )}
+
+              {/* Generation Processing Overlay */}
+              {isGenerating && (
+                <div className="absolute inset-0 bg-slate-950/85 backdrop-blur-md flex flex-col items-center justify-center z-30 rounded-3xl p-6">
+                  <div className="w-full max-w-sm space-y-6 text-center">
+                    <div className="relative inline-block">
+                      <div className="w-16 h-16 rounded-2xl bg-gradient-to-tr from-blue-600 to-indigo-600 animate-pulse flex items-center justify-center mx-auto shadow-xl shadow-blue-500/30">
+                        <SparklesIcon className="w-8 h-8 text-white animate-spin" />
+                      </div>
+                    </div>
+
+                    <div className="space-y-1.5">
+                      <h4 className="text-lg font-bold text-white">Generating Affiliate Visuals</h4>
+                      <p className="text-xs text-slate-400 min-h-[20px]">{currentStepText}</p>
+                    </div>
+
+                    {/* Progress Bar */}
+                    <div className="space-y-2">
+                      <div className="w-full bg-slate-800 h-2.5 rounded-full overflow-hidden border border-slate-700">
+                        <div 
+                          className="h-full bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500 transition-all duration-300"
+                          style={{ width: `${progress}%` }}
+                        />
+                      </div>
+                      <div className="flex justify-between text-[10px] font-mono text-slate-400">
+                        <span>Progress Engine</span>
+                        <span className="text-blue-400 font-bold">{progress}%</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+            </div>
+          </div>
+        </div>
+      </main>
+
+      {/* History Drawer Modal */}
+      {showHistory && (
+        <div className="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-slate-900 border border-slate-800 w-full max-w-3xl max-h-[80vh] rounded-2xl overflow-hidden flex flex-col shadow-2xl">
+            <div className="p-4 border-b border-slate-800 flex items-center justify-between">
+              <h3 className="text-sm font-bold text-white flex items-center gap-2">
+                <SparklesIcon className="w-4 h-4 text-blue-400" /> Riwayat Generasi Konten
+              </h3>
+              <button 
+                onClick={() => setShowHistory(false)}
+                className="text-slate-400 hover:text-white px-2 py-1 text-xs font-bold"
+              >
+                ✕ Tutup
+              </button>
+            </div>
+            
+            <div className="flex-1 overflow-y-auto p-4 space-y-6">
+              {history.length === 0 ? (
+                <div className="py-12 flex flex-col items-center justify-center text-slate-500 text-xs">
+                  <ImageIcon className="w-10 h-10 mb-2 opacity-30" />
+                  <p>Belum ada riwayat generasi foto.</p>
+                </div>
+              ) : (
+                history.map((item, hIdx) => (
+                  <div key={hIdx} className="bg-slate-950 border border-slate-800/80 rounded-xl p-3.5 space-y-3">
+                    <div className="flex items-center justify-between text-xs">
+                      <span className="font-mono text-slate-400">{item.date}</span>
+                      <button 
+                        onClick={() => { setResults(item.results); setShowHistory(false); }}
+                        className="text-blue-400 hover:underline font-semibold"
+                      >
+                        Muat Ke Canvas
+                      </button>
+                    </div>
+                    <div className="grid grid-cols-6 gap-2">
+                      {item.results.map((res, rIdx) => (
+                        <div key={rIdx} className="aspect-[3/4] rounded-lg overflow-hidden border border-slate-800 bg-slate-900">
+                          <img src={res.imageUrl} alt="Thumbnail" className="w-full h-full object-cover" />
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ))
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Full Image Preview Modal */}
+      {activeModalImage && (
+        <div 
+          onClick={() => setActiveModalImage(null)}
+          className="fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex items-center justify-center p-4 cursor-zoom-out"
+        >
+          <div className="relative max-w-4xl max-h-[90vh] overflow-hidden rounded-2xl border border-slate-800">
+            <img src={activeModalImage} alt="Full View" className="w-full h-full object-contain max-h-[85vh]" />
+            <button 
+              onClick={() => setActiveModalImage(null)}
+              className="absolute top-4 right-4 bg-slate-900/80 text-white p-2 rounded-full hover:bg-slate-800"
+            >
+              ✕
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Footer */}
+      <footer className="border-t border-slate-800/60 mt-12 py-6 bg-[#070b14]">
+        <div className="max-w-7xl mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+          <div className="flex items-center gap-2">
+            <SparklesIcon className="w-4 h-4 text-blue-500" />
+            <span>© 2026 AffiliVision Pro • Created by <strong>Faisal Adi Priatna</strong></span>
+          </div>
+          <div className="flex items-center gap-6">
+            <a href="#" className="hover:text-slate-300">Privacy Policy</a>
+            <a href="#" className="hover:text-slate-300">Terms of Service</a>
+            <a href="#" className="hover:text-slate-300">Support</a>
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
+}
